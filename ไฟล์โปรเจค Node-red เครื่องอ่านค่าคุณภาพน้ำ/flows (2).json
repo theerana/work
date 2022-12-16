@@ -1,0 +1,1003 @@
+[
+    {
+        "id": "4fc1f7a131a91d1b",
+        "type": "tab",
+        "label": "COPE_Ras-Pi",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fe5bf6dbf2803770",
+        "type": "json",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 580,
+        "wires": [
+            [
+                "d9bbee4e9ec0a5c4"
+            ]
+        ]
+    },
+    {
+        "id": "b03012e9ebfe4d7c",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://notify-api.line.me/api/notify",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1510,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "295c6a1b34f32a95",
+        "type": "delay",
+        "z": "4fc1f7a131a91d1b",
+        "name": "Delay send payload Line",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1270,
+        "y": 720,
+        "wires": [
+            [
+                "b03012e9ebfe4d7c"
+            ]
+        ]
+    },
+    {
+        "id": "d9bbee4e9ec0a5c4",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "query database",
+        "func": "\nmsg.sensor = msg.payload;\nmsg.topic = \"  SELECT * FROM Mac_po\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 580,
+        "wires": [
+            [
+                "95e48f29f3bbf81a"
+            ]
+        ]
+    },
+    {
+        "id": "f3202571b2aa288b",
+        "type": "mqtt in",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "topic": "outTopic1",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "8d706ff08809d981",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 580,
+        "wires": [
+            [
+                "fe5bf6dbf2803770"
+            ]
+        ]
+    },
+    {
+        "id": "95e48f29f3bbf81a",
+        "type": "mysql",
+        "z": "4fc1f7a131a91d1b",
+        "mydb": "4c540789f3e2518b",
+        "name": "table:mac_po",
+        "x": 720,
+        "y": 580,
+        "wires": [
+            [
+                "d8854f4e4818aa13"
+            ]
+        ]
+    },
+    {
+        "id": "d9c4ddd2a1353d08",
+        "type": "mysql",
+        "z": "4fc1f7a131a91d1b",
+        "mydb": "4c540789f3e2518b",
+        "name": "DB:test_scg",
+        "x": 1230,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2489c072b4515a7f",
+        "type": "ui_table",
+        "z": "4fc1f7a131a91d1b",
+        "group": "1fd340f74e9bb654",
+        "name": "MySQL",
+        "order": 1,
+        "width": "9",
+        "height": "8",
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 1800,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "16479b3b7e93d21f",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "query database",
+        "func": "msg.topic = \"  SELECT * FROM Mac_po\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1440,
+        "y": 960,
+        "wires": [
+            [
+                "98a6097c0b61e2d0"
+            ]
+        ]
+    },
+    {
+        "id": "98a6097c0b61e2d0",
+        "type": "mysql",
+        "z": "4fc1f7a131a91d1b",
+        "mydb": "4c540789f3e2518b",
+        "name": "table:mac_po",
+        "x": 1640,
+        "y": 960,
+        "wires": [
+            [
+                "2489c072b4515a7f"
+            ]
+        ]
+    },
+    {
+        "id": "ce6e1b966620668f",
+        "type": "ui_form",
+        "z": "4fc1f7a131a91d1b",
+        "name": "INSERT",
+        "label": "INSERT",
+        "group": "b1f37a418963f844",
+        "order": 1,
+        "width": "7",
+        "height": "3",
+        "options": [
+            {
+                "label": "Mac Address_Arduino",
+                "value": "mac",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Pond numbers",
+                "value": "ponds",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "mac": "",
+            "ponds": ""
+        },
+        "payload": "",
+        "submit": "INSERT",
+        "cancel": "",
+        "topic": "payload",
+        "topicType": "msg",
+        "splitLayout": false,
+        "className": "",
+        "x": 580,
+        "y": 880,
+        "wires": [
+            [
+                "407fd441af7e80a1"
+            ]
+        ],
+        "icon": "font-awesome/fa-cloud-upload"
+    },
+    {
+        "id": "0153df60a331289f",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 1420,
+        "wires": []
+    },
+    {
+        "id": "4440f3cf0d88a39a",
+        "type": "mysql",
+        "z": "4fc1f7a131a91d1b",
+        "mydb": "4c540789f3e2518b",
+        "name": "Dashboard:test_scg",
+        "x": 1280,
+        "y": 920,
+        "wires": [
+            [
+                "b2e580676cb7be66",
+                "16479b3b7e93d21f"
+            ]
+        ]
+    },
+    {
+        "id": "0f141e8f25223a32",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_Delete table Mac_po",
+        "func": "msg.in_de = msg.payload;\nmsg.topic = \"delete  from Mac_po where mac_address ='\"+msg.in_de.mac+\"';\";\nmsg.dashboard = \"กำลังดำเนินการ\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 920,
+        "wires": [
+            [
+                "9480554e128f7b7a",
+                "4d3503c0f8ba266a"
+            ]
+        ]
+    },
+    {
+        "id": "52f92ad216112a10",
+        "type": "ui_form",
+        "z": "4fc1f7a131a91d1b",
+        "name": "Delete",
+        "label": "DELETE",
+        "group": "b1f37a418963f844",
+        "order": 2,
+        "width": "7",
+        "height": "3",
+        "options": [
+            {
+                "label": "Mac Address",
+                "value": "mac",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "mac": ""
+        },
+        "payload": "",
+        "submit": "Delete",
+        "cancel": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 570,
+        "y": 920,
+        "wires": [
+            [
+                "0f141e8f25223a32"
+            ]
+        ]
+    },
+    {
+        "id": "407fd441af7e80a1",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_insert table Mac_po",
+        "func": "msg.in_de = msg.payload;\nmsg.topic = \"insert into Mac_po value('\"+msg.in_de.mac+\"','\"+msg.in_de.ponds+\"');\";\nmsg.dashboard = \"กำลังดำเนินการ\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 880,
+        "wires": [
+            [
+                "4d3503c0f8ba266a",
+                "9480554e128f7b7a"
+            ]
+        ]
+    },
+    {
+        "id": "e328ad51ed741841",
+        "type": "ui_button",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "group": "1fd340f74e9bb654",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Refresh",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "replay",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1240,
+        "y": 960,
+        "wires": [
+            [
+                "16479b3b7e93d21f"
+            ]
+        ]
+    },
+    {
+        "id": "4d3503c0f8ba266a",
+        "type": "ui_text",
+        "z": "4fc1f7a131a91d1b",
+        "group": "b1f37a418963f844",
+        "order": 3,
+        "width": "7",
+        "height": "3",
+        "name": "",
+        "label": "สถานะการทำงาน",
+        "format": "{{msg.dashboard}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 1200,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "3d97bead02285243",
+        "type": "catch",
+        "z": "4fc1f7a131a91d1b",
+        "name": "ERRoE DB",
+        "scope": [
+            "4440f3cf0d88a39a"
+        ],
+        "uncaught": false,
+        "x": 680,
+        "y": 820,
+        "wires": [
+            [
+                "bdb957675533aaf8"
+            ]
+        ]
+    },
+    {
+        "id": "b2e580676cb7be66",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_Success",
+        "func": "msg.dashboard = \"ดำเนินการสำเร็จ\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 860,
+        "wires": [
+            [
+                "4d3503c0f8ba266a"
+            ]
+        ]
+    },
+    {
+        "id": "bdb957675533aaf8",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_dashboard",
+        "func": "\nmsg.dashboard = \"ERROR: ในการเพิ่มหรือลบอุปกรณ์\" \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 820,
+        "wires": [
+            [
+                "4d3503c0f8ba266a"
+            ]
+        ]
+    },
+    {
+        "id": "9480554e128f7b7a",
+        "type": "delay",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1070,
+        "y": 920,
+        "wires": [
+            [
+                "4440f3cf0d88a39a"
+            ]
+        ]
+    },
+    {
+        "id": "b0c8ca9a8c86c133",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_igniton_sensor",
+        "func": "sensor = msg.ignition_sensor; //value sensor\nponds = msg.ignition_ponds; //value name ponds\n\n\n    ec = sensor.ec\n    hardness = sensor.hardness\n    ph = sensor.ph\n    ponds = ponds\n    turbidity = sensor.turbidity\n\n\n\n\n//msg.query = \"ec=\"+ec+\"&hardness=\"+hardness+\"&ph=\"+ph+\"&ponds=\"+ponds+\"&turbidity=\"+turbidity+\"&water_level=\"+water_level\nif(ponds == \"Pund_1\"){\nmsg.query = \"ec=\"+ec+\"&hardness=\"+hardness+\"&ph=\"+ph+\"&turbidity=\"+turbidity\nreturn [msg,null]; \n    \n}else if(ponds == \"Pund_2\"){\nmsg.query = \"ec=\"+ec+\"&hardness=\"+hardness+\"&ph=\"+ph+\"&turbidity=\"+turbidity\nreturn [null,msg]; \n}\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 380,
+        "wires": [
+            [
+                "205070286c53bab9"
+            ],
+            [
+                "d8eef563f92c0052"
+            ]
+        ]
+    },
+    {
+        "id": "205070286c53bab9",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "API_igniton_read_water_1",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.56.1:8088/system/webdev/Dashboard/Value_water_pond1/python_read_water_1?{{{query}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1540,
+        "y": 360,
+        "wires": [
+            [
+                "63c80890d5c7927f"
+            ]
+        ]
+    },
+    {
+        "id": "d8854f4e4818aa13",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "send value",
+        "func": "//******************************Time*************************\nvar c =  Date.now();\nvar d = new Date(c);\nvar datetime = {   //เรียกใช้วัน เวลา\n    'day'   : d.getDate(),\n    'month' : d.getMonth()+1,\n    'year'  : d.getFullYear(),\n    'hour'  : d.getHours(),\n    'minute': d.getMinutes(),\n    'second': d.getSeconds()\n}\n\n            var date = datetime.year+\"-\"+datetime.month+\"-\"+datetime.day; //นำวันที่มาเรียงให้ได้ตามฟอร์มMy SQL\n            var time = datetime.hour+\":\"+datetime.minute+\":\"+datetime.second;\n\n//******************************Time***************************\n\ntotal= 0;\nvar mac = msg.payload; //บันทึกMac address MYSQL\n\n            for(i = 0; i<mac.length; i++){    //ตรวจสอบชื่อ อุปกรณ์ที่ส่งให้ ได้มีการลงทะเบียนหรือยัง\n                 if(msg.sensor.name == mac[i].mac_address){\n                     \n                      total = 1;\n                                       //ignition_API\n                         msg.ignition_sensor = msg.sensor ;   //ส่งค่าที่ได้รับจากarduino\n                         msg.ignition_ponds  = mac[i].ponds;  //ส่งค่าที่ชื่อบ่อน้ำ\n                                       \n                                                //Line\n                         msg.headers ={'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer ICKLpb7Le1BhYD6WHp7EJnZfOISDXJg189v9ELoLelC'};\n                         msg.payload ={'message': \"ค่าน้ำที่อ่านได้ '\"+date+\" \"+time+ \"' Zone:'\"+mac[i].ponds+\"' EC:'\"+msg.sensor.ec+\"' PH:'\"+msg.sensor.ph+\"' Hardness:'\"+msg.sensor.hardness+\"' Turbidity:'\"+msg.sensor.turbidity+\"'\"};\n\n                                            //ฐานข้อมูล\n                         msg.topic = \"INSERT INTO water_value1(dt,zone,ec,ph,hardness,turbidity)\"+\n                         \"VALUES('\"+date+\" \"+time+ \"','\"+mac[i].ponds+\"','\"+msg.sensor.ec+\"','\"+msg.sensor.ph+\"','\"+msg.sensor.hardness+\"','\"+msg.sensor.turbidity+\"');\";\n                             \n        \n                 }\n            }    \n\n                        if(total == 0){\n                            // ข้อความทาง Line\n                            msg.headers ={'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer F3UXb2VpGBSML2InPmnT4udd7jldSXaiUDfexfdT1nh'};\n                            msg.payload ={'message': \"มีอุปกรณ์อ่านค่าคุณภาพน้ำที่ยังไม่ได้ลงทะเบียนในระบบ Mac Address: \"+msg.sensor.name};\n                            \n                            //ส่งข้อมูลขึ้นDashboard\n                            msg.dashboard = \"ไม่รู้จัก MAC=  \" + msg.sensor.name;\n                             return [null,msg];\n                            }\n\n     return msg;\n\n\n\n\n\n\n            ",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 580,
+        "wires": [
+            [
+                "d9c4ddd2a1353d08",
+                "b0c8ca9a8c86c133",
+                "b61fb31d6ef11432"
+            ],
+            [
+                "295c6a1b34f32a95",
+                "4d3503c0f8ba266a"
+            ]
+        ]
+    },
+    {
+        "id": "e20a1ccdd7bbb301",
+        "type": "mqtt in",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "topic": "TEST",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "8d706ff08809d981",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 530,
+        "y": 780,
+        "wires": [
+            [
+                "f3455bdbd40ae22a"
+            ]
+        ]
+    },
+    {
+        "id": "3a54010b9e5aae64",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_payload_line & dashboard",
+        "func": "msg.TEST = msg.payload;\nmsg.headers ={'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer ICKLpb7Le1BhYD6WHp7EJnZfOISDXJg189v9ELoLelC'};\nmsg.payload ={'message': \"TEST อุปกรณ์= \"+msg.TEST.name};\nmsg.dashboard = \"TEST = \" + msg.TEST.name;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 780,
+        "wires": [
+            [
+                "4d3503c0f8ba266a",
+                "295c6a1b34f32a95"
+            ]
+        ]
+    },
+    {
+        "id": "f3455bdbd40ae22a",
+        "type": "json",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 670,
+        "y": 780,
+        "wires": [
+            [
+                "3a54010b9e5aae64"
+            ]
+        ]
+    },
+    {
+        "id": "0bcced3b1e0cbf56",
+        "type": "mqtt in",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "topic": "water_level",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "8d706ff08809d981",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 660,
+        "wires": [
+            [
+                "a519a6d1084cdbb5",
+                "b6274bb69bdc808a"
+            ]
+        ]
+    },
+    {
+        "id": "a519a6d1084cdbb5",
+        "type": "json",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 350,
+        "y": 660,
+        "wires": [
+            [
+                "eabd6c1817a0750f"
+            ]
+        ]
+    },
+    {
+        "id": "e53c1eb53d8c398d",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "send water_lavel",
+        "func": "//******************************Time*************************\nvar c =  Date.now();\nvar d = new Date(c);\nvar datetime = {   //เรียกใช้วัน เวลา\n    'day'   : d.getDate(),\n    'month' : d.getMonth()+1,\n    'year'  : d.getFullYear(),\n    'hour'  : d.getHours(),\n    'minute': d.getMinutes(),\n    'second': d.getSeconds()\n}\nvar date = datetime.year+\"-\"+datetime.month+\"-\"+datetime.day; //นำวันที่มาเรียงให้ได้ตามฟอร์มMy SQL\nvar time = datetime.hour+\":\"+datetime.minute+\":\"+datetime.second;\n\n//******************************Time***************************\n\ntotal= 0;\nvar mac = msg.payload; //บันทึกMac address MYSQL\n\n    for(i = 0; i<mac.length; i++){    //ตรวจสอบชื่อ อุปกรณ์ที่ส่งให้ ได้มีการลงทะเบียนหรือยัง\n         if(msg.water.name == mac[i].mac_address){\n             \n              total = 1;\n                               //ignition_API\n                 msg.ignition_water = msg.water.water_level ;   //ส่งค่าที่ได้รับจากarduino\n                 msg.ignition_ponds  = mac[i].ponds;  //ส่งค่าที่ชื่อบ่อน้ำ\n                 \n                 msg.topic = \"INSERT INTO water_level(dt,zone,level)\"+\n                 \"VALUES('\"+date+\" \"+time+ \"','\"+mac[i].ponds+\"','\"+msg.water.water_level+\"');\";\n                 \n\n         }\n    }    \n\n                    if(total == 0){\n                        // ข้อความทาง Line\n                        msg.headers ={'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer F3UXb2VpGBSML2InPmnT4udd7jldSXaiUDfexfdT1nh'};\n                        msg.payload ={'message': \"มีอุปกรณ์วัดความลึกของน้ำที่ยังไม่ได้ลงทะเบียน :  \"+msg.water.name};\n                        //ส่งข้อมูลขึ้นDashboard\n                        msg.dashboard = \"ไม่รู้จัก MAC: \" + msg.water.name;\n                         return [null,msg];\n                        }\n\n     return msg;\n\n\n\n\n\n\n            ",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 660,
+        "wires": [
+            [
+                "d9c4ddd2a1353d08",
+                "01a38eb5c45599fa"
+            ],
+            [
+                "295c6a1b34f32a95",
+                "4d3503c0f8ba266a"
+            ]
+        ]
+    },
+    {
+        "id": "eabd6c1817a0750f",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "query database",
+        "func": "msg.water = msg.payload;\nmsg.topic = \"  SELECT * FROM Mac_po\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 660,
+        "wires": [
+            [
+                "c360759a7fa66a41"
+            ]
+        ]
+    },
+    {
+        "id": "c360759a7fa66a41",
+        "type": "mysql",
+        "z": "4fc1f7a131a91d1b",
+        "mydb": "4c540789f3e2518b",
+        "name": "table:mac_po",
+        "x": 700,
+        "y": 660,
+        "wires": [
+            [
+                "e53c1eb53d8c398d"
+            ]
+        ]
+    },
+    {
+        "id": "01a38eb5c45599fa",
+        "type": "function",
+        "z": "4fc1f7a131a91d1b",
+        "name": "fun_igniton_water_level",
+        "func": "sensor_water = msg.ignition_water; //value sensor\nzone = msg.ignition_ponds; //value name ponds\n\nif(zone == \"solar_cell\"){\n\nmsg.query = \"water_level_\"+zone+\"=\"+sensor_water\n//Note*** \"&water_level_\"+ชื่ออุปกรณ์\"+\"=\" ค่าระดับน้ำ\nreturn [msg,null,null];\n\n}else if(zone == \"mine\"){\nmsg.query = \"water_level_\"+zone+\"=\"+sensor_water\n//Note*** \"&water_level_\"+ชื่ออุปกรณ์\"+\"=\" ค่าระดับน้ำ\nreturn [null,msg,null];\n    \n}else if(zone == \"whg\"){\nmsg.query = \"water_level_\"+zone+\"=\"+sensor_water\n//Note*** \"&water_level_\"+ชื่ออุปกรณ์\"+\"=\" ค่าระดับน้ำ\nreturn [null,null,msg];}\n\n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 540,
+        "wires": [
+            [
+                "3b794faf603fe3b0",
+                "40614c0de8eca44c"
+            ],
+            [
+                "de7957b88b4a9576"
+            ],
+            [
+                "45b798fb7cd23eb8"
+            ]
+        ]
+    },
+    {
+        "id": "3b794faf603fe3b0",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "API_igniton_water_level_solar_cell",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.56.1:8088/system/webdev/Dashboard/python_level_solar_cell?{{{query}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1560,
+        "y": 500,
+        "wires": [
+            [
+                "e9ab5a9999a2a05c"
+            ]
+        ]
+    },
+    {
+        "id": "e9ab5a9999a2a05c",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1810,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "63825d2ccd768ce6",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1810,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "11c55e12a7addc43",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1810,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "de7957b88b4a9576",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "API_igniton_water_level_mine",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.56.1:8088/system/webdev/Dashboard/python_level_mine?{{{query}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1550,
+        "y": 540,
+        "wires": [
+            [
+                "63825d2ccd768ce6"
+            ]
+        ]
+    },
+    {
+        "id": "45b798fb7cd23eb8",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "API_igniton_water_level_whg",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.56.1:8088/system/webdev/Dashboard/python_level_whg?{{{query}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1550,
+        "y": 580,
+        "wires": [
+            [
+                "11c55e12a7addc43"
+            ]
+        ]
+    },
+    {
+        "id": "63c80890d5c7927f",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1770,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d8eef563f92c0052",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "API_igniton_read_water_2",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.56.1:8088/system/webdev/Dashboard/Value_water_pond2/python_read_water_2?{{{query}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1540,
+        "y": 400,
+        "wires": [
+            [
+                "644fa22284325f7f"
+            ]
+        ]
+    },
+    {
+        "id": "644fa22284325f7f",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1770,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "b61fb31d6ef11432",
+        "type": "http request",
+        "z": "4fc1f7a131a91d1b",
+        "name": "Line_notify",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://notify-api.line.me/api/notify",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1230,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "40614c0de8eca44c",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1510,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "b6274bb69bdc808a",
+        "type": "debug",
+        "z": "4fc1f7a131a91d1b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "8d706ff08809d981",
+        "type": "mqtt-broker",
+        "name": "WATER",
+        "broker": "203.150.243.209",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4c540789f3e2518b",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "test_scg",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "1fd340f74e9bb654",
+        "type": "ui_group",
+        "name": "MySQL",
+        "tab": "f2cd07b6ccf1f30a",
+        "order": 3,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b1f37a418963f844",
+        "type": "ui_group",
+        "name": "INSERT",
+        "tab": "f2cd07b6ccf1f30a",
+        "order": 1,
+        "disp": false,
+        "width": "7",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f2cd07b6ccf1f30a",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
